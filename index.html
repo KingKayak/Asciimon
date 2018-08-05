@@ -9,9 +9,58 @@
     </style>
     <title>Stufvs</title>
     <script>
+      var prow = 0;
+      var pcol = 0;
+      var grid = new Array(10);
+      var pspace = "*";
+      for(var i = 0; i<10; i++){
+        grid[i] = ["*","*","*","*","*","*","*","*","*","*"]
+      }
+      function draw(){
+        document.getElementById("screen").innerHTML = "";
+        for(var r = 0; r<grid.length; r++){
+          for(var c = 0; c<grid[r].length; c++){
+            document.getElementById("screen").innerHTML += grid[r][c];
+          }
+          document.getElementById("screen").innerHTML += "<br>";
+        }
+      }
       document.addEventListener("keydown", function(e){
+        if(e.key === "d"){
+          if(pcol<grid[prow].length - 1){
+            grid[prow][pcol] = pspace;
+            pcol ++;
+            pspace = grid[prow][pcol];
+            grid[prow][pcol] = "P";
+            draw();
+          }
+        }
+        if(e.key === "a"){
+          if(pcol>0){
+            grid[prow][pcol] = pspace;
+            pcol --;
+            pspace = grid[prow][pcol];
+            grid[prow][pcol] = "P";
+            draw();
+          }
+        }
         if(e.key === "w"){
-          document.getElementById("screen").innerHTML = "iodg";
+          if(prow>0){
+            grid[prow][pcol] = pspace;
+            prow --;
+            pspace = grid[prow][pcol];
+            grid[prow][pcol] = "P";
+            draw();
+          }
+        }
+        if(e.key === "s"){
+          if(prow<grid.length - 1){
+            grid[prow][pcol] = pspace;
+            prow ++;
+            pspace = grid[prow][pcol];
+            grid[prow][pcol] = "P";
+            draw();
+          }
         }
       });
     </script>
@@ -21,6 +70,7 @@
       Hello World
     </b>
     <div id="screen">
+
     </div>
   </body>
 </html>
