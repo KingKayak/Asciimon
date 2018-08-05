@@ -3,72 +3,75 @@
   <head>
     <style>
       body {
-        background-color: greenyellow;
+        font-family: monospace;
+        background-color: black;
         color: yellowgreen;
+        font-size: 3em;
+      }
+      #screen{
+        text-align: center;
       }
     </style>
     <title>Stufvs</title>
+    <script src="map.js">
+    </script>
     <script>
-      var prow = 0;
-      var pcol = 0;
-      var grid = new Array(10);
-      var pspace = "*";
-      for(var i = 0; i<10; i++){
-        grid[i] = ["*","*","*","*","*","*","*","*","*","*"]
+      var prow = 2;
+      var pcol = 2;
+      var pspace = " ";
+      window.onload = function(){
+        document.addEventListener("keydown", function(e){
+          var nextPCol = pcol;
+          var nextPRow = prow;
+          if(e.key === "d"){
+            nextPCol = pcol+1;
+
+          }
+          if(e.key === "a"){
+              nextPCol = pcol-1;
+
+          }
+          if(e.key === "w"){
+            nextPRow = prow-1;
+          }
+          if(e.key === "s"){
+            nextPRow = prow+1;
+          }
+          console.log(nextPCol + " " + nextPRow);
+          if((nextPCol>=0) && (nextPCol<grid[0].length) && (nextPRow>=0) && (nextPRow<grid.length) && (grid[nextPRow][nextPCol]!="#")){
+            grid[prow][pcol] = pspace;
+            prow = nextPRow;
+            pcol = nextPCol;
+            pspace = grid[prow][pcol];
+            grid[prow][pcol] = "P";
+            draw();
+          }
+        });
       }
+
+
       function draw(){
+        var grow = Math.floor(prow/10);
+        var gcol = Math.floor(pcol/30);
         document.getElementById("screen").innerHTML = "";
-        for(var r = 0; r<grid.length; r++){
-          for(var c = 0; c<grid[r].length; c++){
+        for(var r = 10*grow; r<10*grow+10; r++){
+          for(var c = 30*gcol; c<30*grow+30; c++){
+            if(grid[r][c] === " "){
+              document.getElementById("screen").innerHTML += "&nbsp";
+            }
+            else{
             document.getElementById("screen").innerHTML += grid[r][c];
+            }
           }
           document.getElementById("screen").innerHTML += "<br>";
         }
       }
-      document.addEventListener("keydown", function(e){
-        if(e.key === "d"){
-          if(pcol<grid[prow].length - 1){
-            grid[prow][pcol] = pspace;
-            pcol ++;
-            pspace = grid[prow][pcol];
-            grid[prow][pcol] = "P";
-            draw();
-          }
-        }
-        if(e.key === "a"){
-          if(pcol>0){
-            grid[prow][pcol] = pspace;
-            pcol --;
-            pspace = grid[prow][pcol];
-            grid[prow][pcol] = "P";
-            draw();
-          }
-        }
-        if(e.key === "w"){
-          if(prow>0){
-            grid[prow][pcol] = pspace;
-            prow --;
-            pspace = grid[prow][pcol];
-            grid[prow][pcol] = "P";
-            draw();
-          }
-        }
-        if(e.key === "s"){
-          if(prow<grid.length - 1){
-            grid[prow][pcol] = pspace;
-            prow ++;
-            pspace = grid[prow][pcol];
-            grid[prow][pcol] = "P";
-            draw();
-          }
-        }
-      });
+
+
     </script>
   </head>
   <body>
-    <b>
-      Hello World
-    </b>
+    <!-- <input type="file" value="map.txt" id="map"></input> -->
     <div id="screen">
 
     </div>
